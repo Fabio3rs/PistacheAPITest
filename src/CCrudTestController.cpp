@@ -5,7 +5,7 @@ void CCrudTestController::index_route(const Pistache::Rest::Request& request, Pi
 {
     std::unique_ptr<sql::Statement> stmt(con->createStatement());
 
-    sql::ResultSet* res = stmt->executeQuery("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES;");
+    std::unique_ptr<sql::ResultSet> res(stmt->executeQuery("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES;"));
 
     std::string result;
     result.reserve(128);
