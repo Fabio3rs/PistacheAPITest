@@ -16,6 +16,7 @@ SOFTWARE.
 src/CConfig class will expect ambient variables to work with, setup a .env file and source it.
 .env file example
 ```
+export PORT="9000"
 export MYSQL_HOST="tcp://127.0.0.1:3306"
 export MYSQL_USER="yourmysqluser"
 export MYSQL_PASSWORD="yourmysqlpassword"
