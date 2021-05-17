@@ -3,9 +3,15 @@
 
 void CCrudTestController::index_route(const Pistache::Rest::Request& request, Pistache::Http::ResponseWriter response)
 {
-    std::unique_ptr<sql::Statement> stmt(con->createStatement());
+    auto& conf = CConfig::config();
 
-    std::unique_ptr<sql::ResultSet> res(stmt->executeQuery("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES;"));
+    unique_conn_t con = CSql::instance().make_connection_cfg();
+
+    con->setSchema(conf["MYSQL_DATABASE"]);
+
+    unique_statement_t stmt(con->createStatement());
+
+    unique_resultset_t res(stmt->executeQuery("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES;"));
 
     std::string result;
     result.reserve(128);
@@ -25,13 +31,4 @@ void CCrudTestController::register_routes(const std::string& base, Pistache::Res
 
 CCrudTestController::CCrudTestController() : CController()
 {
-    auto& conf = CConfig::config();
-
-    /**
-     * TODO: Encapsulate this on CSql.hpp
-    */
-    sql::Driver* driver = get_driver_instance();
-    con = std::unique_ptr<sql::Connection>(driver->connect(conf["MYSQL_HOST"], conf["MYSQL_USER"], conf["MYSQL_PASSWORD"]));
-
-    con->setSchema(conf["MYSQL_DATABASE"]);
 }
