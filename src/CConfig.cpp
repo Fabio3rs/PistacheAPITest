@@ -1,3 +1,10 @@
+/**
+ *@file CConfig.cpp
+ * @author Fabio Rossini Sluzala ()
+ * @brief Config class definitions
+ * @version 0.1
+ *
+ */
 #include "CConfig.hpp"
 #include <iostream>
 #include <algorithm>
@@ -24,7 +31,7 @@ std::string CConfig::at(const std::string& key, std::string&& default_ret) const
     auto it = data.find(key);
     if (it == data.end())
     {
-        return default_ret;
+        return std::move(default_ret);
     }
 
     return it->second;

@@ -1,3 +1,12 @@
+/**
+ *@file CPistacheEndpoint.cpp
+ * @author Fabio Rossini Sluzala ()
+ * @brief
+ * @version 0.1
+ *
+ * @copyright Copyright (c) 2021
+ *
+ */
 #include "CPistacheEndpoint.hpp"
 
 CPistacheEndpoint::CPistacheEndpoint() noexcept
@@ -18,7 +27,12 @@ void CPistacheEndpoint::init(Pistache::Address addr, size_t thr)
 void CPistacheEndpoint::start()
 {
     httpEndpoint->setHandler(router.handler());
-    httpEndpoint->serve();
+    httpEndpoint->serveThreaded();
+}
+
+void CPistacheEndpoint::stop()
+{
+    httpEndpoint->shutdown();
 }
 
 void CPistacheEndpoint::setupRoutes()

@@ -1,6 +1,14 @@
+/**
+ *@file CConfig.hpp
+ * @author Fabio Rossini Sluzala ()
+ * @brief Configuration with environment variables
+ * @version 0.1
+ *
+ *
+ */
 #pragma once
 #ifndef _CConfig_hpp
-#define _CConfig_hpp
+#define CConfig_hpp
 #include <map>
 #include <string>
 
@@ -9,14 +17,35 @@ class CConfig
     std::map<std::string, std::string> data;
 
 public:
-
+    /**
+     *@brief Configuration singleton instance
+     *
+     * @return CConfig&
+     */
     static CConfig& config();
 
-    // Default null string
+    /**
+     *@brief Searches a variable in the config and if it is not exists return a empty string
+     *
+     * @param key The variable name
+     * @return std::string
+     */
     std::string operator[](const std::string& key) const noexcept;
 
+    /**
+     *@brief Searches a variable in the config and if it is not exists return a custom default value
+     *
+     * @param key The variable name
+     * @param default_ret The default return
+     * @return std::string
+     */
     std::string at(const std::string& key, std::string&& default_ret = "") const noexcept;
 
+    /**
+     *@brief Reads and parses envp variable
+     *
+     * @param envp environment variables received in the third parameter of the main function
+     */
     void load_from_envp(char** envp);
 
 private:
